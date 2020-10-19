@@ -16,6 +16,7 @@
 		D87B2F4B253DB7120041138B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D87B2F49253DB7120041138B /* LaunchScreen.storyboard */; };
 		D87B2F56253DB7120041138B /* CloudKitDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87B2F55253DB7120041138B /* CloudKitDemoTests.swift */; };
 		D87B2F61253DB7130041138B /* CloudKitDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87B2F60253DB7130041138B /* CloudKitDemoUITests.swift */; };
+		D87B2F71253DB8320041138B /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D87B2F70253DB8320041138B /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		D87B2F5C253DB7120041138B /* CloudKitDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CloudKitDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D87B2F60253DB7130041138B /* CloudKitDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitDemoUITests.swift; sourceTree = "<group>"; };
 		D87B2F62253DB7130041138B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D87B2F6E253DB82C0041138B /* CloudKitDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CloudKitDemo.entitlements; sourceTree = "<group>"; };
+		D87B2F70253DB8320041138B /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D87B2F71253DB8320041138B /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +89,7 @@
 				D87B2F54253DB7120041138B /* CloudKitDemoTests */,
 				D87B2F5F253DB7130041138B /* CloudKitDemoUITests */,
 				D87B2F39253DB7100041138B /* Products */,
+				D87B2F6F253DB8320041138B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +106,7 @@
 		D87B2F3A253DB7100041138B /* CloudKitDemo */ = {
 			isa = PBXGroup;
 			children = (
+				D87B2F6E253DB82C0041138B /* CloudKitDemo.entitlements */,
 				D87B2F3B253DB7100041138B /* AppDelegate.swift */,
 				D87B2F3D253DB7100041138B /* SceneDelegate.swift */,
 				D87B2F3F253DB7100041138B /* ViewController.swift */,
@@ -129,6 +135,14 @@
 				D87B2F62253DB7130041138B /* Info.plist */,
 			);
 			path = CloudKitDemoUITests;
+			sourceTree = "<group>";
+		};
+		D87B2F6F253DB8320041138B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D87B2F70253DB8320041138B /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -354,6 +368,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 2V8P924DLJ;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -414,6 +429,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 2V8P924DLJ;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -438,6 +454,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CloudKitDemo/CloudKitDemo.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2V8P924DLJ;
 				INFOPLIST_FILE = CloudKitDemo/Info.plist;
@@ -445,8 +463,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = academy.CloudKitDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = jessica.CloudKitDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -456,6 +475,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CloudKitDemo/CloudKitDemo.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2V8P924DLJ;
 				INFOPLIST_FILE = CloudKitDemo/Info.plist;
@@ -463,8 +484,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = academy.CloudKitDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = jessica.CloudKitDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
