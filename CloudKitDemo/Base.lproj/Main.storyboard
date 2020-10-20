@@ -32,6 +32,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="Tis-Cf-2x4"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="WiW-1H-WAs"/>
                                 </connections>
                             </tableView>
                         </subviews>

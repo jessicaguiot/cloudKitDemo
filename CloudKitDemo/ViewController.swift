@@ -30,6 +30,52 @@ class ViewController: UIViewController {
     
     @IBAction func onPlusTapped() {
         
+        getCreatNoteAlert()
+    }
+    
+    func saveToCloud(note:String) {
+        
+        let newNote = CKRecord(recordType: .init("Note"))
+        newNote.setValue(note, forKey: "content")
+        
+        dataBase.save(newNote) { (record, error) in
+            
+            print("hello im trying")
+            
+            if error != nil {
+                
+                let alert = UIAlertController(title: "Eita", message: "Erro ao salvar.../n" + error!.localizedDescription, preferredStyle: .alert)
+                
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                self.present(alert,animated: true, completion: nil)
+            }
+            
+            guard record != nil else { return }
+        }
+    }
+    
+    @objc func queryDatabase() {
+        
+        let query = CKQuery(recordType: "Note", predicate: NSPredicate(value: true))
+        
+        dataBase.perform(query, inZoneWith: nil) { (records, error) in
+            
+            guard let records = records else { return }
+            
+            let sortedRecords = records.sorted(by: {$0.creationDate! > $1.creationDate!})
+            
+            self.notes = sortedRecords
+            
+            DispatchQueue.main.async {
+                
+                self.tableView.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    func getCreatNoteAlert(){
+        
         let alert = UIAlertController(title: "Type Something", message: "What would you like to save in a note?", preferredStyle: .alert)
         
         alert.addTextField { (textField) in
@@ -43,46 +89,21 @@ class ViewController: UIViewController {
             self.saveToCloud(note: text)
         }
         
+        post.isEnabled = false
+        
+        //only enable the post action when the text field isnt nill
+        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: alert.textFields?.first, queue: .main) { (notification) in
+            post.isEnabled = alert.textFields?.first?.text != ""
+        }
+        
         alert.addAction(cancel)
         alert.addAction(post)
         
         present(alert, animated: true, completion: nil)
     }
-    
-    func saveToCloud(note:String) {
-        
-        let newNote = CKRecord(recordType: .init("Note"))
-        newNote.setValue(note, forKey: "content")
-        
-        dataBase.save(newNote) { (record, error) in
-            print(error)
-            guard record != nil else { return }
-            print("save record")
-        }
-    }
-    
-    @objc func queryDatabase() {
-        
-        let query = CKQuery(recordType: "Note", predicate: NSPredicate(value: true))
-        
-        dataBase.perform(query, inZoneWith: nil) { (records, _) in
-            
-            guard let records = records else { return }
-            
-            let sortedRecords = records.sorted(by: {$0.creationDate! > $1.creationDate! })
-            
-            self.notes = sortedRecords
-            
-            DispatchQueue.main.async {
-                
-                self.tableView.refreshControl?.endRefreshing()
-                self.tableView.reloadData()
-            }
-        }
-    }
 }
 
-extension ViewController: UITableViewDataSource {
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
@@ -103,4 +124,44 @@ extension ViewController: UITableViewDataSource {
         cell.textLabel?.text = note
         return cell
     }
+    
+    //Update
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        print(notes[indexPath.row])
+        
+        //get the note to edit
+        let noteToEdit = notes[indexPath.row].value(forKey: "content") as! String
+        
+        let alert = UIAlertController(title: "Edit", message: "Edit note: ", preferredStyle: .alert)
+        alert.addTextField()
+        
+        let textField = alert.textFields?.first
+        textField?.text = noteToEdit
+        
+        let editButton = UIAlertAction(title: "Edit", style: .default){ (action) in
+            
+            let newNote = alert.textFields?.first?.text
+        
+            self.notes[indexPath.row].setValue(newNote, forKey: "content")
+            
+            self.dataBase.save(self.notes[indexPath.row]) { (updateRecord, error) in
+                
+                if error != nil {
+                    
+                    print(error?.localizedDescription)
+                } else {
+        
+                    DispatchQueue.main.async {
+                        
+                        tableView.reloadData()
+                    }
+                }
+            }
+        }
+        
+        alert.addAction(editButton)
+        self.present(alert, animated: true, completion: nil)
+    }
 }
+
