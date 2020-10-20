@@ -163,5 +163,28 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         alert.addAction(editButton)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    //Delete
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let action = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completionHandler) in
+            
+            let noteToRemove = self.notes[indexPath.row].recordID
+            
+            self.dataBase.delete(withRecordID: noteToRemove) { (deletedRecord, error) in
+                if error != nil {
+                    print(error.debugDescription)
+                }
+                
+                DispatchQueue.main.async {
+                    
+                    self.notes.remove(at: indexPath.row)
+                    self.tableView.reloadData()
+                }
+            }
+        }
+        
+        return UISwipeActionsConfiguration(actions: [action])
+    }
 }
 
